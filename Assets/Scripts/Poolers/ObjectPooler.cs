@@ -22,7 +22,7 @@ using UnityEngine;
 /***** POOLER *****/
 /******************/
 
-public class ObjectPool : MonoBehaviour {
+public class ObjectPooler : MonoBehaviour {
 
 	/**********************/
 	/***** PROPERTIES *****/
@@ -47,7 +47,10 @@ public class ObjectPool : MonoBehaviour {
 	/*****************/
 
 	void Start () {
-		
+
+		this.initPooledObjectsList ();
+		this.fillPooledObjectsList ();
+
 	}
 
 	/**************************************************/
@@ -58,6 +61,35 @@ public class ObjectPool : MonoBehaviour {
 	/******************/
 
 	void Update () {
-		
+
 	}
+
+	/**************************************************/
+	/**************************************************/
+
+	/************************************/
+	/***** INIT POOLED OBJECTS LIST *****/
+	/************************************/
+
+	private void initPooledObjectsList() {
+		this.pooledObjects = new List<GameObject>();
+	}
+
+	/**************************************************/
+	/**************************************************/
+
+	/************************************/
+	/***** FILL POOLED OBJECTS LIST *****/
+	/************************************/
+
+	private void fillPooledObjectsList() {
+
+		for (int i = 0; i < this.pooledAmount; i++) {
+			GameObject obj = (GameObject) Instantiate (pooledObject);
+			obj.SetActive (false);
+			pooledObjects.Add (obj);
+		}
+
+	}
+
 }
