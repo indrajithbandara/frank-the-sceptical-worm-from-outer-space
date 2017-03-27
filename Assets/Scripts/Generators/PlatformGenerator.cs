@@ -37,6 +37,8 @@ public class PlatformGenerator : MonoBehaviour {
 	public float platformDistanceBetweenMin;
 	public float plateformDistanceBetweenMax;
 
+	public ObjectPooler theObjectPool;
+
 	//PRIVATE
 	//-------
 
@@ -136,7 +138,10 @@ public class PlatformGenerator : MonoBehaviour {
 
 		this.transform.position = new Vector3 (xPosition, this.transform.position.y, this.transform.position.z);
 
-		//Instantiate (this.thePlatform, this.transform.position, this.transform.rotation);
+		GameObject newPlatform = theObjectPool.getPooledObject ();
+		newPlatform.transform.position = this.transform.position;
+		newPlatform.transform.rotation = this.transform.rotation;
+		newPlatform.SetActive (true);
 
 	}
 

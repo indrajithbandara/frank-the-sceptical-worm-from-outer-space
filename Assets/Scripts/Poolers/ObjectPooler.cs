@@ -56,14 +56,25 @@ public class ObjectPooler : MonoBehaviour {
 	/**************************************************/
 	/**************************************************/
 
-	/******************/
-	/***** UPDATE *****/
-	/******************/
+	/*****************************/
+	/***** GET POOLED OBJECT *****/
+	/*****************************/
 
-	void Update () {
+	public GameObject getPooledObject() {
+
+		for (int i = 0; i < this.pooledObjects.Count; i++) {
+
+			if (!this.pooledObjects [i].activeInHierarchy) {
+				return this.pooledObjects [i];
+			}
+
+		}
+
+		GameObject newObj = this.AddGameObject ();
+		return newObj;
 
 	}
-
+		
 	/**************************************************/
 	/**************************************************/
 
@@ -85,11 +96,23 @@ public class ObjectPooler : MonoBehaviour {
 	private void fillPooledObjectsList() {
 
 		for (int i = 0; i < this.pooledAmount; i++) {
-			GameObject obj = (GameObject) Instantiate (pooledObject);
-			obj.SetActive (false);
-			pooledObjects.Add (obj);
+			this.AddGameObject ();
 		}
 
+	}
+
+	/**************************************************/
+	/**************************************************/
+
+	/***************************/
+	/***** ADD GAME OBJECT *****/
+	/***************************/
+
+	private GameObject AddGameObject() {
+		GameObject obj = (GameObject) Instantiate (pooledObject);
+		obj.SetActive (false);
+		pooledObjects.Add (obj);
+		return obj;
 	}
 
 }
