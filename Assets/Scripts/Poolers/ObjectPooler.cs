@@ -22,7 +22,7 @@ using UnityEngine;
 /***** POOLER *****/
 /******************/
 
-public class ObjectPool : MonoBehaviour {
+public class ObjectPooler : MonoBehaviour {
 
 	/**********************/
 	/***** PROPERTIES *****/
@@ -47,17 +47,72 @@ public class ObjectPool : MonoBehaviour {
 	/*****************/
 
 	void Start () {
-		
+
+		this.initPooledObjectsList ();
+		this.fillPooledObjectsList ();
+
 	}
 
 	/**************************************************/
 	/**************************************************/
 
-	/******************/
-	/***** UPDATE *****/
-	/******************/
+	/*****************************/
+	/***** GET POOLED OBJECT *****/
+	/*****************************/
 
-	void Update () {
-		
+	public GameObject getPooledObject() {
+
+		for (int i = 0; i < this.pooledObjects.Count; i++) {
+
+			if (!this.pooledObjects [i].activeInHierarchy) {
+				return this.pooledObjects [i];
+			}
+
+		}
+
+		GameObject newObj = this.AddGameObject ();
+		return newObj;
+
 	}
+		
+	/**************************************************/
+	/**************************************************/
+
+	/************************************/
+	/***** INIT POOLED OBJECTS LIST *****/
+	/************************************/
+
+	private void initPooledObjectsList() {
+		this.pooledObjects = new List<GameObject>();
+	}
+
+	/**************************************************/
+	/**************************************************/
+
+	/************************************/
+	/***** FILL POOLED OBJECTS LIST *****/
+	/************************************/
+
+	private void fillPooledObjectsList() {
+
+		for (int i = 0; i < this.pooledAmount; i++) {
+			this.AddGameObject ();
+		}
+
+	}
+
+	/**************************************************/
+	/**************************************************/
+
+	/***************************/
+	/***** ADD GAME OBJECT *****/
+	/***************************/
+
+	private GameObject AddGameObject() {
+		GameObject obj = (GameObject) Instantiate (pooledObject);
+		obj.SetActive (false);
+		pooledObjects.Add (obj);
+		return obj;
+	}
+
 }
