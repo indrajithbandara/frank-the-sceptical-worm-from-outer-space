@@ -151,8 +151,6 @@ public class PlatformGenerator : MonoBehaviour {
 
 		this.transform.position = new Vector3 (xPosition, this.transform.position.y, this.transform.position.z);
 
-		print (this.platformWidths [this.platformSelector]);
-
 		//Instantiate (this.thePlatforms[this.platformSelector], this.transform.position, this.transform.rotation);
 
 		GameObject newPlatform = this.theObjectPools[this.platformSelector].getPooledObject ();
@@ -161,7 +159,6 @@ public class PlatformGenerator : MonoBehaviour {
 		newPlatform.SetActive (true);
 
 		this.transform.position = new Vector3 (this.transform.position.x + (this.platformWidths [this.platformSelector] / 2), this.transform.position.y, this.transform.position.z);
-
 
 	}
 
