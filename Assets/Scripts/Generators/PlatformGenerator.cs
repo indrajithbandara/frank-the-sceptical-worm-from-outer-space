@@ -32,18 +32,24 @@ public class PlatformGenerator : MonoBehaviour {
 	//------
 
 	public GameObject thePlatform;
+	//public GameObject[] thePlatforms;
+
 	public Transform generationPoint;
 
 	public float platformDistanceBetweenMin;
 	public float plateformDistanceBetweenMax;
 
-	public ObjectPooler theObjectPool;
+	public ObjectPooler[] theObjectPools;
 
 	//PRIVATE
 	//-------
 
 	private float platformWidth;
 	private float distanceBetween;
+
+	private int platformSelector;
+
+	private float[] platformWidths;
 
 	/**************************************************/
 	/**************************************************/
@@ -64,9 +70,7 @@ public class PlatformGenerator : MonoBehaviour {
 	/******************/
 
 	void Update () {
-
 		this.plateformsGeneration ();
-
 	}
 
 	/**************************************************/
@@ -77,7 +81,14 @@ public class PlatformGenerator : MonoBehaviour {
 	/**************************/
 
 	private void getComponents () {
-		this.platformWidth = thePlatform.GetComponent<BoxCollider2D> ().size.x;
+		//this.platformWidth = thePlatform.GetComponent<BoxCollider2D> ().size.x;
+
+		this.platformWidths = new float[this.theObjectPools.Length];
+
+		for (int i = 0; i < this.theObjectPools.Length; i++) {
+			this.platformWidths[i] = this.theObjectPools[i].pooledObject.GetComponent<BoxCollider2D> ().size.x;
+		}
+
 	}
 
 	/**************************************************/
@@ -100,7 +111,7 @@ public class PlatformGenerator : MonoBehaviour {
 
 	private void plateformFeed() {
 
-		if (this.isGenerationPointBehind ()) {
+		if (this.isGenerationPointAhead ()) {
 			this.generateNewPlatform ();
 		}
 
@@ -113,7 +124,7 @@ public class PlatformGenerator : MonoBehaviour {
 	/***** IS GENERATION POINT BEHIND *****/
 	/**************************************/
 
-	private bool isGenerationPointBehind () {
+	private bool isGenerationPointAhead () {
 
 		if (this.transform.position.x < this.generationPoint.position.x) {
 			return true;
@@ -133,15 +144,21 @@ public class PlatformGenerator : MonoBehaviour {
 	private void generateNewPlatform () {
 
 		this.distanceBetween = Random.Range (this.platformDistanceBetweenMin, this.plateformDistanceBetweenMax);
+		this.platformSelector = Random.Range (0, this.theObjectPools.Length);
 
-		float xPosition = this.transform.position.x + this.platformWidth + this.distanceBetween;
+		float intermediatePosition = this.transform.position.x + (this.platformWidths [this.platformSelector] / 2);
+		float xPosition = intermediatePosition + this.distanceBetween;
 
 		this.transform.position = new Vector3 (xPosition, this.transform.position.y, this.transform.position.z);
 
-		GameObject newPlatform = theObjectPool.getPooledObject ();
+		//Instantiate (this.thePlatforms[this.platformSelector], this.transform.position, this.transform.rotation);
+
+		GameObject newPlatform = this.theObjectPools[this.platformSelector].getPooledObject ();
 		newPlatform.transform.position = this.transform.position;
 		newPlatform.transform.rotation = this.transform.rotation;
 		newPlatform.SetActive (true);
+
+		this.transform.position = new Vector3 (this.transform.position.x + (this.platformWidths [this.platformSelector] / 2), this.transform.position.y, this.transform.position.z);
 
 	}
 
