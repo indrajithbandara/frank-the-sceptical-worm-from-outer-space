@@ -32,12 +32,13 @@ public class PlatformGenerator : MonoBehaviour {
 	//------
 
 	public GameObject thePlatform;
-	//public GameObject[] thePlatforms;
 
 	public Transform generationPoint;
+	public Transform maxHeightPoint;
 
 	public float platformDistanceBetweenMin;
 	public float plateformDistanceBetweenMax;
+	public float maxHeightChange;
 
 	public ObjectPooler[] theObjectPools;
 
@@ -46,6 +47,9 @@ public class PlatformGenerator : MonoBehaviour {
 
 	private float platformWidth;
 	private float distanceBetween;
+	private float minHeight;
+	private float maxHeight;
+	private float heightChange;
 
 	private int platformSelector;
 
@@ -81,7 +85,20 @@ public class PlatformGenerator : MonoBehaviour {
 	/**************************/
 
 	private void getComponents () {
-		//this.platformWidth = thePlatform.GetComponent<BoxCollider2D> ().size.x;
+
+		this.objectPooling ();
+		this.setHeights ();
+
+	}
+
+	/**************************************************/
+	/**************************************************/
+
+	/**************************/
+	/***** OBJECT POOLING *****/
+	/**************************/
+
+	private void objectPooling () {
 
 		this.platformWidths = new float[this.theObjectPools.Length];
 
@@ -89,6 +106,62 @@ public class PlatformGenerator : MonoBehaviour {
 			this.platformWidths[i] = this.theObjectPools[i].pooledObject.GetComponent<BoxCollider2D> ().size.x;
 		}
 
+	}
+
+	/**************************************************/
+	/**************************************************/
+
+	/*******************/
+	/***** SETTERS *****/
+	/*******************/
+
+	/*****/
+	/***** HEIGHTS *****/
+	/*****/
+
+	private void setHeights () {
+		this.minHeight = this.transform.position.y;
+		this.maxHeight = this.maxHeightPoint.position.y;
+	}
+
+	/*****/
+	/***** PLATFORM SELECTOR *****/
+	/*****/
+
+	private void setPlatformSelector  () {
+		this.platformSelector = Random.Range (0, this.theObjectPools.Length);
+	}
+
+	/*****/
+	/***** DISTANCE BETWEEN *****/
+	/*****/
+
+	private void setDistanceBetween () {
+		this.distanceBetween = Random.Range (this.platformDistanceBetweenMin, this.plateformDistanceBetweenMax);
+	}
+
+	/*****/
+	/***** HEIGHT CHANGE *****/
+	/*****/
+
+	private void setHeightChange () {
+		
+		this.heightChange = this.transform.position.y + Random.Range (this.maxHeightChange, -this.maxHeightChange);
+
+		if (this.heightChange > this.maxHeight) {
+			this.heightChange = this.maxHeight;
+		} else if (this.heightChange < this.minHeight) {
+			this.heightChange = this.minHeight;
+		}
+
+	}
+
+	/*****/
+	/***** SET POSITION *****/
+	/*****/
+
+	private void setPosition( float xPosition ) {
+		this.transform.position = new Vector3 (xPosition, this.heightChange, this.transform.position.z);
 	}
 
 	/**************************************************/
@@ -143,23 +216,58 @@ public class PlatformGenerator : MonoBehaviour {
 
 	private void generateNewPlatform () {
 
-		this.distanceBetween = Random.Range (this.platformDistanceBetweenMin, this.plateformDistanceBetweenMax);
-		this.platformSelector = Random.Range (0, this.theObjectPools.Length);
+		this.setDistanceBetween ();
+		this.setPlatformSelector ();
+		this.setHeightChange ();
 
+		float xPosition = this.computeXPosition ();
+
+		this.setPosition (xPosition);
+
+		this.poolThePlatform ();
+
+		this.movePlatformGenerator ();
+
+	}
+
+	/**************************************************/
+	/**************************************************/
+
+	/******************************/
+	/***** COMPUTE X POSITION *****/
+	/******************************/
+
+	private float computeXPosition () {
 		float intermediatePosition = this.transform.position.x + (this.platformWidths [this.platformSelector] / 2);
 		float xPosition = intermediatePosition + this.distanceBetween;
+		return xPosition;
+	}
 
-		this.transform.position = new Vector3 (xPosition, this.transform.position.y, this.transform.position.z);
+	/**************************************************/
+	/**************************************************/
 
-		//Instantiate (this.thePlatforms[this.platformSelector], this.transform.position, this.transform.rotation);
+	/*****************************/
+	/***** POOL THE PLATFORM *****/
+	/*****************************/
 
+	private void poolThePlatform () {
+		
 		GameObject newPlatform = this.theObjectPools[this.platformSelector].getPooledObject ();
 		newPlatform.transform.position = this.transform.position;
 		newPlatform.transform.rotation = this.transform.rotation;
 		newPlatform.SetActive (true);
 
-		this.transform.position = new Vector3 (this.transform.position.x + (this.platformWidths [this.platformSelector] / 2), this.transform.position.y, this.transform.position.z);
+	}
 
+	/**************************************************/
+	/**************************************************/
+
+	/***********************************/
+	/***** MOVE PLATFORM GENERATOR *****/
+	/***********************************/
+
+	private void movePlatformGenerator () {
+		this.transform.position = new Vector3 (this.transform.position.x + (this.platformWidths [this.platformSelector] / 2), this.transform.position.y, this.transform.position.z);
 	}
 
 }
