@@ -145,7 +145,15 @@ public class PlatformGenerator : MonoBehaviour {
 	/*****/
 
 	private void setHeightChange () {
+		
 		this.heightChange = this.transform.position.y + Random.Range (this.maxHeightChange, -this.maxHeightChange);
+
+		if (this.heightChange > this.maxHeight) {
+			this.heightChange = this.maxHeight;
+		} else if (this.heightChange < this.minHeight) {
+			this.heightChange = this.minHeight;
+		}
+
 	}
 
 	/*****/
