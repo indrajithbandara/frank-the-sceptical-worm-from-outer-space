@@ -32,19 +32,25 @@ public class PlayerController : MonoBehaviour {
 	//------
 
 	public float moveSpeed;
+	public float speedMultiplier;
+	public float speedIncreaseMilestone;
 	public float jumpForce;
 	public float jumpTime;
+	public float groundCheckRadius;
 
 	public bool isGrounded;
 
 	public LayerMask theGround;
 
+	public Transform groundCheck;
+
 	//PRIVATE
 	//-------
 
 	private float jumpTimeCounter;
+	private float speedMilestoneCount;
 
-	private Collider2D playerCollider;
+	//private Collider2D playerCollider;
 
 	private Rigidbody2D playerRigidbody;
 
@@ -82,7 +88,7 @@ public class PlayerController : MonoBehaviour {
 
 	private void getComponents () {
 		this.playerRigidbody = GetComponent<Rigidbody2D> ();
-		this.playerCollider = GetComponent<BoxCollider2D> ();
+		//this.playerCollider = GetComponent<BoxCollider2D> ();
 		this.playerAnimator = GetComponent<Animator> ();
 	}
 
@@ -99,6 +105,7 @@ public class PlayerController : MonoBehaviour {
 
 	private void setValues () {
 		this.setJumpTimeCounter (this.jumpTime);
+		this.setSpeedMilestoneCount ();
 	}
 
 	/*****/
@@ -107,6 +114,14 @@ public class PlayerController : MonoBehaviour {
 
 	private void setJumpTimeCounter (float time) {
 		this.jumpTimeCounter = time;
+	}
+
+	/*****/
+	/***** SET SPEED MILESTONE COUNT *****/
+	/*****/
+
+	private void setSpeedMilestoneCount () {
+		this.speedMilestoneCount = this.speedIncreaseMilestone;
 	}
 
 	/**************************************************/
@@ -134,7 +149,28 @@ public class PlayerController : MonoBehaviour {
 	/*******************************/
 
 	private void horizontalMovement () {
+
+		this.computeMoveSpeed ();
 		this.playerRigidbody.velocity = new Vector2 (this.moveSpeed, this.playerRigidbody.velocity.y);
+	}
+
+	/**************************************************/
+	/**************************************************/
+
+	/******************************/
+	/***** COMPUTE MOVE SPEED *****/
+	/******************************/
+
+	private void computeMoveSpeed() {
+		
+		if (this.transform.position.x > this.speedMilestoneCount) {
+
+			this.speedMilestoneCount += this.speedIncreaseMilestone;
+			this.speedIncreaseMilestone = this.speedIncreaseMilestone * this.speedMultiplier;
+			this.moveSpeed = this.moveSpeed * this.speedMultiplier;
+
+		}
+
 	}
 
 	/**************************************************/
@@ -146,9 +182,9 @@ public class PlayerController : MonoBehaviour {
 
 	private void jump () {
 
-		isGrounded = this.checkIfGrounded ();
+		this.isGrounded = this.checkIfGrounded ();
 
-		if ((Input.GetKeyDown (KeyCode.Space) || Input.GetMouseButtonDown (0)) && isGrounded) {
+		if ((Input.GetKeyDown (KeyCode.Space) || Input.GetMouseButtonDown (0)) && this.isGrounded) {
 			this.doJump ();
 		}
 
@@ -165,7 +201,7 @@ public class PlayerController : MonoBehaviour {
 			this.setJumpTimeCounter (0);
 		}
 
-		if (isGrounded) {
+		if (this.isGrounded) {
 			this.setJumpTimeCounter (this.jumpTime);
 		}
 
@@ -179,7 +215,7 @@ public class PlayerController : MonoBehaviour {
 	/*****************************/
 
 	private bool checkIfGrounded () {
-		return Physics2D.IsTouchingLayers (this.playerCollider, this.theGround);
+		return Physics2D.OverlapCircle(this.groundCheck.position, this.groundCheckRadius, this.theGround);
 	}
 
 	/**************************************************/
