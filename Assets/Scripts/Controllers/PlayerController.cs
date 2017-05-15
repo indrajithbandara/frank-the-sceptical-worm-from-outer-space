@@ -44,11 +44,16 @@ public class PlayerController : MonoBehaviour {
 
 	public Transform groundCheck;
 
+	public GameManager gameManager;
+
 	//PRIVATE
 	//-------
 
 	private float jumpTimeCounter;
 	private float speedMilestoneCount;
+	private float moveSpeedStore;
+	private float speedMilestoneCountStore;
+	private float speedIncreaseMilestoneStore;
 
 	//private Collider2D playerCollider;
 
@@ -106,6 +111,9 @@ public class PlayerController : MonoBehaviour {
 	private void setValues () {
 		this.setJumpTimeCounter (this.jumpTime);
 		this.setSpeedMilestoneCount ();
+		this.setMoveSpeedStore ();
+		this.setSpeedMilesStoneCountStore ();
+		this.setSpeedIncreaseMilestoneStore ();
 	}
 
 	/*****/
@@ -117,11 +125,35 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	/*****/
-	/***** SET SPEED MILESTONE COUNT *****/
+	/***** SPEED STORE *****/
+	/*****/
+
+	private void setMoveSpeedStore () {
+		this.moveSpeedStore = this.moveSpeed;
+	}
+
+	/*****/
+	/***** SPEED MILESTONE COUNT *****/
 	/*****/
 
 	private void setSpeedMilestoneCount () {
 		this.speedMilestoneCount = this.speedIncreaseMilestone;
+	}
+
+	/*****/
+	/***** SPEED MILESTONE COUNT STORE *****/
+	/*****/
+
+	private void setSpeedMilesStoneCountStore () {
+		this.speedMilestoneCountStore = this.speedMilestoneCount;
+	}
+
+	/*****/
+	/***** SPEED INCREASE MILESTONE STORE *****/
+	/*****/
+
+	private void setSpeedIncreaseMilestoneStore() {
+		this.speedIncreaseMilestoneStore = this.speedIncreaseMilestone;
 	}
 
 	/**************************************************/
@@ -227,6 +259,24 @@ public class PlayerController : MonoBehaviour {
 
 	private void doJump () {
 		this.playerRigidbody.velocity = new Vector2 (this.playerRigidbody.velocity.x, this.jumpForce);
+	}
+
+	/**************************************************/
+	/**************************************************/
+
+	/*********************************/
+	/***** ON COLLISION ENTER 2D *****/
+	/*********************************/
+
+	void OnCollisionEnter2D (Collision2D other) {
+
+		if (other.gameObject.tag == "killbox") {
+			this.gameManager.restartGame ();
+			this.moveSpeed = this.moveSpeedStore;
+			this.speedMilestoneCount = this.speedMilestoneCountStore;
+			this.speedIncreaseMilestone = this.speedIncreaseMilestoneStore;
+		}
+
 	}
 
 }
