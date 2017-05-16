@@ -33,6 +33,7 @@ public class GameManager : MonoBehaviour {
 
 	public Transform platformGenerator;
 	public PlayerController thePlayer;
+	public ScoreManager scoreManager;
 
 	//PRIVATE
 	//-------
@@ -53,12 +54,12 @@ public class GameManager : MonoBehaviour {
 		this.setValues ();
 	}
 
+	/**************************************************/
+	/**************************************************/
+
 	/******************/
 	/***** UPDATE *****/
 	/******************/
-	
-	/**************************************************/
-	/**************************************************/
 
 	void Update () {
 		
@@ -78,6 +79,7 @@ public class GameManager : MonoBehaviour {
 	private void setValues () {
 		this.setPlatformStartPoint ();
 		this.setPlayerStartPoint ();
+		this.setScoreManager ();
 	}
 
 	/*****/
@@ -94,6 +96,14 @@ public class GameManager : MonoBehaviour {
 
 	private void setPlayerStartPoint() {
 		this.playerStartPoint = thePlayer.transform.position;
+	}
+
+	/*****/
+	/***** SCORE MANAGER *****/
+	/*****/
+
+	private void setScoreManager() {
+		this.scoreManager = FindObjectOfType<ScoreManager>();
 	}
 
 	/**************************************************/
@@ -116,6 +126,8 @@ public class GameManager : MonoBehaviour {
 
 	public IEnumerator restartGameCo() {
 
+		this.scoreManager.scoreIncreasing = false;
+
 		this.thePlayer.gameObject.SetActive (false);
 
 		yield return new WaitForSeconds (0.5f);
@@ -130,6 +142,9 @@ public class GameManager : MonoBehaviour {
 		this.platformGenerator.position = this.platformStartPoint;
 
 		this.thePlayer.gameObject.SetActive (true);
+
+		this.scoreManager.scoreCount = 0;
+		this.scoreManager.scoreIncreasing = true;
 
 	}
 
