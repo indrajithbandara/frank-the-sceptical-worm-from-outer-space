@@ -39,8 +39,11 @@ public class PlatformGenerator : MonoBehaviour {
 	public float platformDistanceBetweenMin;
 	public float plateformDistanceBetweenMax;
 	public float maxHeightChange;
+	public float randomCoinThreshold;
 
 	public ObjectPooler[] theObjectPools;
+
+	public CoinGenerator coinGenerator;
 
 	//PRIVATE
 	//-------
@@ -64,6 +67,7 @@ public class PlatformGenerator : MonoBehaviour {
 
 	void Start () {
 		this.getComponents ();
+		this.setValues ();
 	}
 
 	/**************************************************/
@@ -85,10 +89,7 @@ public class PlatformGenerator : MonoBehaviour {
 	/**************************/
 
 	private void getComponents () {
-
 		this.objectPooling ();
-		this.setHeights ();
-
 	}
 
 	/**************************************************/
@@ -116,12 +117,29 @@ public class PlatformGenerator : MonoBehaviour {
 	/*******************/
 
 	/*****/
+	/***** SET VALUES *****/
+	/*****/
+
+	private void setValues() {
+		this.setHeights ();
+		this.setCoinGenerator ();
+	}
+
+	/*****/
 	/***** HEIGHTS *****/
 	/*****/
 
 	private void setHeights () {
 		this.minHeight = this.transform.position.y;
 		this.maxHeight = this.maxHeightPoint.position.y;
+	}
+
+	/*****/
+	/***** COIN GENERATOR *****/
+	/*****/
+
+	private void setCoinGenerator() {
+		this.coinGenerator = FindObjectOfType<CoinGenerator> ();
 	}
 
 	/*****/
@@ -226,6 +244,8 @@ public class PlatformGenerator : MonoBehaviour {
 
 		this.poolThePlatform ();
 
+		this.generateCoins ();
+
 		this.movePlatformGenerator ();
 
 	}
@@ -268,6 +288,21 @@ public class PlatformGenerator : MonoBehaviour {
 
 	private void movePlatformGenerator () {
 		this.transform.position = new Vector3 (this.transform.position.x + (this.platformWidths [this.platformSelector] / 2), this.transform.position.y, this.transform.position.z);
+	}
+
+	/**************************************************/
+	/**************************************************/
+
+	/**************************/
+	/***** GENERATE COINS *****/
+	/**************************/
+
+	private void generateCoins() {
+
+		if (Random.Range(0f, 100f) < this.randomCoinThreshold) {
+			this.coinGenerator.spawnCoins (new Vector3(this.transform.position.x, this.transform.position.y + 6f, this.transform.position.z));
+		}
+
 	}
 
 }
