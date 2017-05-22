@@ -159,4 +159,15 @@ public class ScoreManager : MonoBehaviour {
 		PlayerPrefs.SetFloat ("HighScore", this.highScoreCount);
 	}
 
+	/**************************************************/
+	/**************************************************/
+
+	/*********************/
+	/***** ADD SCORE *****/
+	/*********************/
+
+	public void addScore(int pointsToAdd) {
+		this.scoreCount += pointsToAdd;
+	}
+
 }
