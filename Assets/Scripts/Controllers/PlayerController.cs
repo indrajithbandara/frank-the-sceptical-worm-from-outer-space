@@ -55,6 +55,9 @@ public class PlayerController : MonoBehaviour {
 	private float speedMilestoneCountStore;
 	private float speedIncreaseMilestoneStore;
 
+	private bool stoppedJumping;
+	private bool canDoubleJump;
+
 	//private Collider2D playerCollider;
 
 	private Rigidbody2D playerRigidbody;
@@ -114,6 +117,8 @@ public class PlayerController : MonoBehaviour {
 		this.setMoveSpeedStore ();
 		this.setSpeedMilesStoneCountStore ();
 		this.setSpeedIncreaseMilestoneStore ();
+		this.setStoppedJumping (true);
+		this.setCanDoubleJump (true);
 	}
 
 	/*****/
@@ -154,6 +159,22 @@ public class PlayerController : MonoBehaviour {
 
 	private void setSpeedIncreaseMilestoneStore() {
 		this.speedIncreaseMilestoneStore = this.speedIncreaseMilestone;
+	}
+
+	/*****/
+	/***** STOPPED JUMPING *****/
+	/*****/
+
+	private void setStoppedJumping (bool value) {
+		this.stoppedJumping = value;	
+	}
+
+	/*****/
+	/***** CAN DOUBLE JUMP *****/
+	/*****/
+
+	private void setCanDoubleJump (bool value) {
+		this.canDoubleJump = value;	
 	}
 
 	/**************************************************/
@@ -216,11 +237,23 @@ public class PlayerController : MonoBehaviour {
 
 		this.isGrounded = this.checkIfGrounded ();
 
-		if ((Input.GetKeyDown (KeyCode.Space) || Input.GetMouseButtonDown (0)) && this.isGrounded) {
-			this.doJump ();
+		if (Input.GetKeyDown (KeyCode.Space) || Input.GetMouseButtonDown (0)) {
+
+			if (this.isGrounded) {
+				this.doJump ();
+				this.setStoppedJumping (false);
+			}
+
+			if (!this.isGrounded && this.canDoubleJump) {
+				this.doJump ();
+				this.setJumpTimeCounter (this.jumpTime);
+				this.setStoppedJumping (false);
+				this.setCanDoubleJump (false);
+			}
+
 		}
 
-		if (Input.GetKey (KeyCode.Space) || Input.GetMouseButton(0)) {
+		if ((Input.GetKey (KeyCode.Space) || Input.GetMouseButton(0)) && !this.stoppedJumping) {
 
 			if (this.jumpTimeCounter > 0) {
 				this.doJump ();
@@ -231,10 +264,12 @@ public class PlayerController : MonoBehaviour {
 			
 		if (Input.GetKeyUp (KeyCode.Space) || Input.GetMouseButtonUp(0)) {
 			this.setJumpTimeCounter (0);
+			this.setStoppedJumping (true);
 		}
 
 		if (this.isGrounded) {
 			this.setJumpTimeCounter (this.jumpTime);
+			this.setCanDoubleJump (true);
 		}
 
 	}
