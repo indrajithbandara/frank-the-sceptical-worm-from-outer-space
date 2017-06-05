@@ -34,6 +34,7 @@ public class GameManager : MonoBehaviour {
 	public Transform platformGenerator;
 	public PlayerController thePlayer;
 	public ScoreManager scoreManager;
+	public DeathMenu deathMenu;
 
 	//PRIVATE
 	//-------
@@ -114,7 +115,11 @@ public class GameManager : MonoBehaviour {
 	/*******************/
 
 	public void restartGame() {
-		StartCoroutine ("restartGameCo");
+		//StartCoroutine ("restartGameCo");
+
+		this.deactivatePlayerAndScore ();
+		this.deathMenu.gameObject.SetActive (true);
+
 	}
 
 	/**************************************************/
@@ -126,12 +131,34 @@ public class GameManager : MonoBehaviour {
 
 	public IEnumerator restartGameCo() {
 
-		this.scoreManager.scoreIncreasing = false;
-
-		this.thePlayer.gameObject.SetActive (false);
-
+		this.deactivatePlayerAndScore ();
 		yield return new WaitForSeconds (0.5f);
+		this.reset();
 
+	}
+
+	/**************************************************/
+	/**************************************************/
+
+	/***************************************/
+	/***** DEACTIVATE PLAYER AND SCORE *****/
+	/***************************************/
+
+	public void deactivatePlayerAndScore() {
+		this.scoreManager.scoreIncreasing = false;
+		this.thePlayer.gameObject.SetActive (false);
+	}
+
+	/**************************************************/
+	/**************************************************/
+
+	/*****************/
+	/***** RESET *****/
+	/*****************/
+
+	public void reset() {
+
+		this.deathMenu.gameObject.SetActive (false);
 		this.platformList = FindObjectsOfType<PlatformDestroyer> ();
 
 		for (int i = 0; i < this.platformList.Length; i++) {

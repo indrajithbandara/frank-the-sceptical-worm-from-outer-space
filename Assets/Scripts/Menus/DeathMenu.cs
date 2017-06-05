@@ -1,7 +1,7 @@
 ﻿/**
- * FTSWFOS - MainMenu.cs
+ * FTSWFOS - DeathMenu.cs
  *
- * @since       30.05.2017
+ * @since       05.06.2017
  * @version     1.0.0.0
  * @author      MLB
  * @copyright   -
@@ -23,7 +23,7 @@ using UnityEngine.SceneManagement;
 /***** MENU *****/
 /****************/
 
-public class MainMenu : MonoBehaviour {
+public class DeathMenu : MonoBehaviour {
 
 	/**********************/
 	/***** PROPERTIES *****/
@@ -32,7 +32,7 @@ public class MainMenu : MonoBehaviour {
 	//PUBLIC
 	//------
 
-	public string playGameLevel;
+	public string mainMenuLevel;
 
 	//PRIVATE
 	//-------
@@ -40,23 +40,25 @@ public class MainMenu : MonoBehaviour {
 	/**************************************************/
 	/**************************************************/
 
-	/*********************/
-	/***** PLAY GAME *****/
-	/*********************/
+	/************************/
+	/***** RESTART GAME *****/
+	/************************/
 
-	public void playGame() {
-		SceneManager.LoadScene (this.playGameLevel);
+	public void restartGame () {
+
+		FindObjectOfType<GameManager> ().reset ();
+
 	}
 
 	/**************************************************/
 	/**************************************************/
 
-	/*********************/
-	/***** QUIT GAME *****/
-	/*********************/
+	/************************/
+	/***** QUIT TO MAIN *****/
+	/************************/
 
-	public void quitGame() {
-		Application.Quit ();
+	public void quitToMain () {
+		SceneManager.LoadScene (this.mainMenuLevel);
 	}
-		
+
 }
