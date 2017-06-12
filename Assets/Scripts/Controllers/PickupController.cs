@@ -38,6 +38,8 @@ public class PickupController : MonoBehaviour {
 
 	private ScoreManager scoreManager;
 
+	private AudioSource coinSound;
+
 	/**************************************************/
 	/**************************************************/
 
@@ -73,6 +75,7 @@ public class PickupController : MonoBehaviour {
 
 	private void setValues () {
 		this.setScoreManager ();
+		this.setCoinSound ();
 	}
 
 	/*****/
@@ -83,6 +86,36 @@ public class PickupController : MonoBehaviour {
 		this.scoreManager = FindObjectOfType<ScoreManager> ();
 	}
 
+	/*****/
+	/***** SCORE MANAGER *****/
+	/*****/
+
+	private void setCoinSound () {
+		this.coinSound = GameObject.Find ("CoinSound").GetComponent<AudioSource> ();
+	}
+
+	/**************************************************/
+	/**************************************************/
+
+	/**********************/
+	/***** PLAY SOUND *****/
+	/**********************/
+
+	private void playSound () {
+
+		if (this.coinSound.isPlaying) {
+			
+			this.coinSound.Stop ();
+			this.coinSound.Play ();
+
+		} else {
+			
+			this.coinSound.Play ();
+
+		}
+			
+	}
+		
 	/**************************************************/
 	/**************************************************/
 
@@ -94,6 +127,7 @@ public class PickupController : MonoBehaviour {
 
 		if (other.gameObject.name == "Player") {
 			this.updateScore ();
+			this.playSound ();
 		}
 
 	}
