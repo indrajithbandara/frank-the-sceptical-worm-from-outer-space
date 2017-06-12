@@ -46,6 +46,9 @@ public class PlayerController : MonoBehaviour {
 
 	public GameManager gameManager;
 
+	public AudioSource jumpSound;
+	public AudioSource deathSound;
+
 	//PRIVATE
 	//-------
 
@@ -242,6 +245,7 @@ public class PlayerController : MonoBehaviour {
 			if (this.isGrounded) {
 				this.doJump ();
 				this.setStoppedJumping (false);
+				this.jumpSound.Play ();
 			}
 
 			if (!this.isGrounded && this.canDoubleJump) {
@@ -249,6 +253,7 @@ public class PlayerController : MonoBehaviour {
 				this.setJumpTimeCounter (this.jumpTime);
 				this.setStoppedJumping (false);
 				this.setCanDoubleJump (false);
+				this.jumpSound.Play ();
 			}
 
 		}
@@ -310,6 +315,7 @@ public class PlayerController : MonoBehaviour {
 			this.moveSpeed = this.moveSpeedStore;
 			this.speedMilestoneCount = this.speedMilestoneCountStore;
 			this.speedIncreaseMilestone = this.speedIncreaseMilestoneStore;
+			this.deathSound.Play ();
 		}
 
 	}
