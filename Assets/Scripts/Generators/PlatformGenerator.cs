@@ -40,8 +40,10 @@ public class PlatformGenerator : MonoBehaviour {
 	public float plateformDistanceBetweenMax;
 	public float maxHeightChange;
 	public float randomCoinThreshold;
+	public float randomSpikeTreshold;
 
 	public ObjectPooler[] theObjectPools;
+	public ObjectPooler theSpikePools;
 
 	public CoinGenerator coinGenerator;
 
@@ -245,6 +247,7 @@ public class PlatformGenerator : MonoBehaviour {
 		this.poolThePlatform ();
 
 		this.generateCoins ();
+		this.generateSpikes ();
 
 		this.movePlatformGenerator ();
 
@@ -300,7 +303,31 @@ public class PlatformGenerator : MonoBehaviour {
 	private void generateCoins() {
 
 		if (Random.Range(0f, 100f) < this.randomCoinThreshold) {
-			this.coinGenerator.spawnCoins (new Vector3(this.transform.position.x, this.transform.position.y + 6f, this.transform.position.z));
+			float coinYPosition = Random.Range (6f, 9f);
+			this.coinGenerator.spawnCoins (new Vector3(this.transform.position.x, this.transform.position.y + coinYPosition, this.transform.position.z));
+		}
+
+	}
+
+	/**************************************************/
+	/**************************************************/
+
+	/***************************/
+	/***** GENERATE SPIKES *****/
+	/***************************/
+
+	private void generateSpikes() {
+
+		if (Random.Range(0f, 100f) < this.randomSpikeTreshold) {
+
+			GameObject newSpike = this.theSpikePools.getPooledObject ();
+			float spikeXPosition = Random.Range(-this.platformWidths[this.platformSelector] / 2f + 4f, this.platformWidths[this.platformSelector] / 2f - 4f);
+			Vector3 spikePosition = new Vector3 (spikeXPosition, 2.8f, 0f);
+
+			newSpike.transform.position = this.transform.position + spikePosition;
+			newSpike.transform.rotation = this.transform.rotation;
+			newSpike.SetActive (true);
+
 		}
 
 	}
