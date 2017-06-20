@@ -1,7 +1,7 @@
 ﻿/**
  * FTSWFOS - GameManager.cs
  *
- * @since       15.15.2017
+ * @since       15.05.2017
  * @version     1.0.0.0
  * @author      MLB
  * @copyright   -
