@@ -44,6 +44,7 @@ public class PowerUpManager : MonoBehaviour {
 
 	private ScoreManager scoreManager;
 	private PlatformGenerator platformGenerator;
+	private PlatformDestroyer[] spikeList;
 
 	/**************************************************/
 	/**************************************************/
@@ -211,6 +212,31 @@ public class PowerUpManager : MonoBehaviour {
 		this.setNormalPointsPerSecond ();
 		this.setSpikeRate ();
 		this.setActive (true);
+
+		if (this.safeMode) {
+			this.useSafeMode ();
+		}
+
+	}
+
+	/**************************************************/
+	/**************************************************/
+
+	/*********************/
+	/***** SAFE MODE *****/
+	/*********************/
+
+	private void useSafeMode () {
+
+		this.spikeList = FindObjectsOfType<PlatformDestroyer> ();
+
+		for (int i = 0; i < this.spikeList.Length; i++) {
+
+			if (this.spikeList[i].gameObject.name.Contains("Spikes")) {
+				this.spikeList[i].gameObject.SetActive (false);
+			}
+
+		}
 
 	}
 

@@ -36,6 +36,8 @@ public class PowerUpController : MonoBehaviour {
 
 	public float duration;
 
+	public Sprite[] powerUpSprites;
+
 	//PRIVATE
 	//-------
 
@@ -102,6 +104,33 @@ public class PowerUpController : MonoBehaviour {
 		}
 
 		gameObject.SetActive (false);
+
+	}
+
+	/**************************************************/
+	/**************************************************/
+
+	/*****************/
+	/***** AWAKE *****/
+	/*****************/
+
+	void Awake() {
+
+		int powerUpSelector = Random.Range (0, 2);
+
+		switch(powerUpSelector) {
+
+			case 0:
+				this.doublePoints = true;
+				break;
+
+			case 1:
+				this.safeMode = true;
+				break;
+
+		}
+
+		GetComponent<SpriteRenderer>().sprite = this.powerUpSprites[powerUpSelector];
 
 	}
 
