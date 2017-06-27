@@ -41,9 +41,12 @@ public class PlatformGenerator : MonoBehaviour {
 	public float maxHeightChange;
 	public float randomCoinThreshold;
 	public float randomSpikeTreshold;
+	public float powerUpHeight;
+	public float powerUpTreshold;
 
 	public ObjectPooler[] theObjectPools;
 	public ObjectPooler theSpikePools;
+	public ObjectPooler powerUpPool;
 
 	public CoinGenerator coinGenerator;
 
@@ -249,6 +252,8 @@ public class PlatformGenerator : MonoBehaviour {
 		this.generateCoins ();
 		this.generateSpikes ();
 
+		this.generatePowerUps ();
+
 		this.movePlatformGenerator ();
 
 	}
@@ -327,6 +332,25 @@ public class PlatformGenerator : MonoBehaviour {
 			newSpike.transform.position = this.transform.position + spikePosition;
 			newSpike.transform.rotation = this.transform.rotation;
 			newSpike.SetActive (true);
+
+		}
+
+	}
+		
+	/**************************************************/
+	/**************************************************/
+
+	/*****************************/
+	/***** GENERATE POWERUPS *****/
+	/*****************************/
+
+	private void generatePowerUps() {
+
+		if (Random.Range(0f, 100f) < this.powerUpTreshold) {
+
+			GameObject newPowerUp = powerUpPool.getPooledObject ();
+			newPowerUp.transform.position = transform.position + new Vector3 (this.distanceBetween / 2f, Random.Range(this.powerUpHeight / 2f, this.powerUpHeight), 0f);
+			newPowerUp.SetActive (true);
 
 		}
 

@@ -1,7 +1,7 @@
 ﻿/**
  * FTSWFOS - GameManager.cs
  *
- * @since       15.15.2017
+ * @since       15.05.2017
  * @version     1.0.0.0
  * @author      MLB
  * @copyright   -
@@ -35,6 +35,7 @@ public class GameManager : MonoBehaviour {
 	public PlayerController thePlayer;
 	public ScoreManager scoreManager;
 	public DeathMenu deathMenu;
+	public bool powerupReset;
 
 	//PRIVATE
 	//-------
@@ -172,6 +173,8 @@ public class GameManager : MonoBehaviour {
 
 		this.scoreManager.scoreCount = 0;
 		this.scoreManager.scoreIncreasing = true;
+
+		this.powerupReset = true;
 
 	}
 

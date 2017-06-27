@@ -1,7 +1,7 @@
 ﻿/**
  * FTSWFOS - ScoreManager.cs
  *
- * @since       16.15.2017
+ * @since       16.05.2017
  * @version     1.0.0.0
  * @author      MLB
  * @copyright   -
