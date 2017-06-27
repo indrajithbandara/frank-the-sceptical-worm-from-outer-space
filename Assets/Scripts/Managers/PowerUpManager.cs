@@ -43,6 +43,7 @@ public class PowerUpManager : MonoBehaviour {
 	private float spikeRate;
 
 	private ScoreManager scoreManager;
+	private GameManager gameManager;
 	private PlatformGenerator platformGenerator;
 	private PlatformDestroyer[] spikeList;
 
@@ -83,6 +84,7 @@ public class PowerUpManager : MonoBehaviour {
 		
 		this.setScoreManager ();
 		this.setPlatformGenerator ();
+		this.setGameManager ();
 
 	}
 
@@ -92,6 +94,14 @@ public class PowerUpManager : MonoBehaviour {
 
 	private void setScoreManager () {
 		this.scoreManager = FindObjectOfType<ScoreManager> ();
+	}
+
+	/*****/
+	/***** GAME MANAGER *****/
+	/*****/
+
+	private void setGameManager () {
+		this.gameManager = FindObjectOfType<GameManager> ();
 	}
 
 	/*****/
@@ -178,6 +188,11 @@ public class PowerUpManager : MonoBehaviour {
 		if (this.active) {
 
 			this.durationCounter -= Time.deltaTime;
+
+			if (this.gameManager.powerupReset) {
+				this.durationCounter = 0;
+				this.gameManager.powerupReset = false;
+			}
 
 			if (this.doublePoints) {
 				this.setPointsPerSecond (this.normalPointsPerSecond * 2f);
