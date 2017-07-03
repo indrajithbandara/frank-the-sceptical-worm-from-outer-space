@@ -308,7 +308,7 @@ public class PlatformGenerator : MonoBehaviour {
 	private void generateCoins() {
 
 		if (Random.Range(0f, 100f) < this.randomCoinThreshold) {
-			float coinYPosition = Random.Range (6f, 9f);
+			float coinYPosition = Random.Range (9f, 12f);
 			this.coinGenerator.spawnCoins (new Vector3(this.transform.position.x, this.transform.position.y + coinYPosition, this.transform.position.z));
 		}
 
