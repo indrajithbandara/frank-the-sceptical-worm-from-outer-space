@@ -33,6 +33,7 @@ public class BackgroundController : MonoBehaviour {
 
 	public float smoothing;
 
+	public Transform fixedBackground;
 	public Transform[] backgrounds;
 
 	//PRIVATE
@@ -40,6 +41,7 @@ public class BackgroundController : MonoBehaviour {
 
 	private float[] parallaxScales;
 
+	private Vector3 lastFixedBackgroundPosition;
 	private Vector3 previousCameraPosition;
 
 	/**************************************************/
@@ -52,6 +54,17 @@ public class BackgroundController : MonoBehaviour {
 	void Start () {
 		this.setValues ();
 	}
+
+	/**************************************************/
+	/**************************************************/
+
+	/******************/
+	/***** UPDATE *****/
+	/******************/
+
+	void Update () {
+		
+	}
 	
 	/**************************************************/
 	/**************************************************/
@@ -61,7 +74,7 @@ public class BackgroundController : MonoBehaviour {
 	/***********************/
 
 	void LateUpdate () {
-		this.moveBackgrounds ();
+		this.manageBackgrounds ();
 	}
 
 	/**************************************************/
@@ -107,6 +120,36 @@ public class BackgroundController : MonoBehaviour {
 	/**************************************************/
 	/**************************************************/
 
+	/******************************/
+	/***** MANAGE BACKGROUNDS *****/
+	/******************************/
+
+	private void manageBackgrounds() {
+
+		this.moveFixedBackground ();
+		this.moveBackgrounds ();
+		this.setPreviousCameraPosition ();
+
+	}
+
+	/**************************************************/
+	/**************************************************/
+
+	/*********************************/
+	/***** MOVE FIXED BACKGROUND *****/
+	/*********************************/
+
+	private void moveFixedBackground() {
+		
+		float distanceToMoveX = this.transform.position.x;
+
+		this.fixedBackground.transform.position = new Vector3 (distanceToMoveX, this.fixedBackground.transform.position.y, this.fixedBackground.transform.position.z);
+
+	}
+
+	/**************************************************/
+	/**************************************************/
+
 	/****************************/
 	/***** MOVE BACKGROUNDS *****/
 	/****************************/
@@ -119,9 +162,7 @@ public class BackgroundController : MonoBehaviour {
 			this.backgrounds[i].position = new Vector3 (this.backgrounds[i].position.x + parallax.x, this.backgrounds[i].position.y + parallax.y, this.backgrounds[i].position.z);
 
 		}
-
-		this.setPreviousCameraPosition ();
-
+			
 	}
 
 }
