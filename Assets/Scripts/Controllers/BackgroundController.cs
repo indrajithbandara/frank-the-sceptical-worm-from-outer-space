@@ -33,7 +33,7 @@ public class BackgroundController : MonoBehaviour {
 
 	public float smoothing;
 
-	public Transform fixedBackground;
+	public Transform[] fixedBackgrounds;
 	public Transform[] backgrounds;
 
 	//PRIVATE
@@ -63,7 +63,7 @@ public class BackgroundController : MonoBehaviour {
 	/******************/
 
 	void Update () {
-		
+		this.manageBackgrounds ();
 	}
 	
 	/**************************************************/
@@ -74,7 +74,7 @@ public class BackgroundController : MonoBehaviour {
 	/***********************/
 
 	void LateUpdate () {
-		this.manageBackgrounds ();
+		
 	}
 
 	/**************************************************/
@@ -143,8 +143,16 @@ public class BackgroundController : MonoBehaviour {
 		
 		float distanceToMoveX = this.transform.position.x;
 
-		this.fixedBackground.transform.position = new Vector3 (distanceToMoveX, this.fixedBackground.transform.position.y, this.fixedBackground.transform.position.z);
+		if (this.fixedBackgrounds.Length > 0) {
+			
+			for (int i = 0; i < this.fixedBackgrounds.Length; i++) {
 
+				this.fixedBackgrounds [i].transform.position = new Vector3 (distanceToMoveX, this.fixedBackgrounds [i].transform.position.y, this.fixedBackgrounds [i].transform.position.z);
+
+			}
+
+		}
+			
 	}
 
 	/**************************************************/
@@ -156,10 +164,16 @@ public class BackgroundController : MonoBehaviour {
 
 	private void moveBackgrounds() {
 
-		for (int i = 0; i < this.backgrounds.Length; i++) {
-			 
-			Vector3 parallax = (this.previousCameraPosition - this.transform.position) * (this.parallaxScales[i] / this.smoothing);
-			this.backgrounds[i].position = new Vector3 (this.backgrounds[i].position.x + parallax.x, this.backgrounds[i].position.y + parallax.y, this.backgrounds[i].position.z);
+		if (this.backgrounds.Length > 0) {
+
+			for (int i = 0; i < this.backgrounds.Length; i++) {
+
+				float parallax = (this.previousCameraPosition.x - this.transform.position.x) * (this.parallaxScales [i] / this.smoothing);
+				float backgroundPosX = this.backgrounds [i].position.x + parallax;
+				Vector3 backgroundPos = new Vector3 (backgroundPosX, this.backgrounds[i].position.y, this.backgrounds[i].position.z);
+				this.backgrounds [i].position = Vector3.Lerp (this.backgrounds [i].position, backgroundPos, this.smoothing * Time.deltaTime);
+
+			}
 
 		}
 			
