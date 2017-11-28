@@ -1,5 +1,5 @@
 ﻿/**
- * FTSWFOS - PlateformDestroyer.cs
+ * FTSWFOS - ObjectDestroyer.cs
  *
  * @since       05.03.2017
  * @version     1.0.0.0
@@ -22,7 +22,7 @@ using UnityEngine;
 /***** DESTROYER *****/
 /*********************/
 
-public class PlatformDestroyer : MonoBehaviour {
+public class ObjectDestroyer : MonoBehaviour {
 
 	/**********************/
 	/***** PROPERTIES *****/
@@ -31,7 +31,7 @@ public class PlatformDestroyer : MonoBehaviour {
 	//PUBLIC
 	//------
 
-	public GameObject plateformDestructionPoint;
+	public GameObject objectDestructionPoint;
 
 	//PRIVATE
 	//-------
@@ -70,7 +70,7 @@ public class PlatformDestroyer : MonoBehaviour {
 	/**************************/
 
 	private void getComponents () {
-		this.plateformDestructionPoint = GameObject.Find ("PlatformDestructionPoint");
+		this.objectDestructionPoint = GameObject.Find ("ObjectDestructionPoint");
 	}
 
 	/**************************************************/
@@ -97,7 +97,7 @@ public class PlatformDestroyer : MonoBehaviour {
 
 	private bool doesObjectHasToBeDestroyed() {
 
-		if (this.transform.position.x < this.plateformDestructionPoint.transform.position.x) {
+		if (this.transform.position.x < this.objectDestructionPoint.transform.position.x) {
 			return true;
 		}
 
