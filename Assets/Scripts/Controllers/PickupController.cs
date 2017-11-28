@@ -125,7 +125,7 @@ public class PickupController : MonoBehaviour {
 
 	void OnTriggerEnter2D (Collider2D other) {
 
-		if (other.gameObject.name == "Player") {
+		if (other.gameObject.name == "Player" && other.GetType() == typeof(CircleCollider2D)) {
 			this.updateScore ();
 			this.playSound ();
 		}

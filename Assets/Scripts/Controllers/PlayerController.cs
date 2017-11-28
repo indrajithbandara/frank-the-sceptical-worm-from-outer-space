@@ -310,7 +310,7 @@ public class PlayerController : MonoBehaviour {
 
 	void OnCollisionEnter2D (Collision2D other) {
 
-		if (other.gameObject.tag == "killbox") {
+		if (other.gameObject.tag == "killbox" && other.otherCollider.GetType() == typeof(BoxCollider2D)) {
 			this.gameManager.restartGame ();
 			this.moveSpeed = this.moveSpeedStore;
 			this.speedMilestoneCount = this.speedMilestoneCountStore;
@@ -318,6 +318,10 @@ public class PlayerController : MonoBehaviour {
 			this.deathSound.Play ();
 		}
 
+		if ((other.gameObject.tag == "killbox" || other.gameObject.tag == "ground") && other.otherCollider.GetType() == typeof(CircleCollider2D)) {
+			Physics2D.IgnoreCollision(other.collider, GetComponent<CircleCollider2D> ());
+		}
+			
 	}
 
 }

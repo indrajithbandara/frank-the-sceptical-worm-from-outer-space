@@ -97,7 +97,7 @@ public class PowerUpController : MonoBehaviour {
 
 	void OnTriggerEnter2D(Collider2D other) {
 
-		if (other.name == "Player") {
+		if (other.name == "Player" && other.GetType() == typeof(CircleCollider2D)) {
 			
 			this.powerUpManager.activatePowerUp (this.doublePoints, this.safeMode, this.duration);
 
