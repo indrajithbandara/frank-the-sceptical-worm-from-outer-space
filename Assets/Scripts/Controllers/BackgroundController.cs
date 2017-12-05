@@ -89,10 +89,8 @@ public class BackgroundController : MonoBehaviour {
 	/*****/
 
 	private void setValues () {
-
 		this.setPreviousCameraPosition ();
 		this.setParallaxScales ();
-
 	}
 
 	/*****/
@@ -125,11 +123,9 @@ public class BackgroundController : MonoBehaviour {
 	/******************************/
 
 	private void manageBackgrounds() {
-
 		this.moveFixedBackground ();
 		this.moveBackgrounds ();
 		this.setPreviousCameraPosition ();
-
 	}
 
 	/**************************************************/
