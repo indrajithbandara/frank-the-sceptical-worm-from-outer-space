@@ -61,8 +61,6 @@ public class PlayerController : MonoBehaviour {
 	private bool stoppedJumping;
 	private bool canDoubleJump;
 
-	//private Collider2D playerCollider;
-
 	private Rigidbody2D playerRigidbody;
 
 	private Animator playerAnimator;
@@ -99,7 +97,6 @@ public class PlayerController : MonoBehaviour {
 
 	private void getComponents () {
 		this.playerRigidbody = GetComponent<Rigidbody2D> ();
-		//this.playerCollider = GetComponent<BoxCollider2D> ();
 		this.playerAnimator = GetComponent<Animator> ();
 	}
 

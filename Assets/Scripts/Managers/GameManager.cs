@@ -116,7 +116,6 @@ public class GameManager : MonoBehaviour {
 	/*******************/
 
 	public void restartGame() {
-		//StartCoroutine ("restartGameCo");
 
 		this.deactivatePlayerAndScore ();
 		this.deathMenu.gameObject.SetActive (true);
