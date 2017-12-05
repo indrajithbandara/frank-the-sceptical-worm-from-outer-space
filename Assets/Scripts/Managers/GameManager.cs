@@ -43,7 +43,7 @@ public class GameManager : MonoBehaviour {
 	private Vector3 platformStartPoint;
 	private Vector3 playerStartPoint;
 
-	private PlatformDestroyer[] platformList;
+	private ObjectDestroyer[] platformList;
 
 	/**************************************************/
 	/**************************************************/
@@ -116,7 +116,6 @@ public class GameManager : MonoBehaviour {
 	/*******************/
 
 	public void restartGame() {
-		//StartCoroutine ("restartGameCo");
 
 		this.deactivatePlayerAndScore ();
 		this.deathMenu.gameObject.SetActive (true);
@@ -160,7 +159,7 @@ public class GameManager : MonoBehaviour {
 	public void reset() {
 
 		this.deathMenu.gameObject.SetActive (false);
-		this.platformList = FindObjectsOfType<PlatformDestroyer> ();
+		this.platformList = FindObjectsOfType<ObjectDestroyer> ();
 
 		for (int i = 0; i < this.platformList.Length; i++) {
 			this.platformList [i].gameObject.SetActive (false);

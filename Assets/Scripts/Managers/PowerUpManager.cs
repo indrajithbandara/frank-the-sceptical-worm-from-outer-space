@@ -45,7 +45,7 @@ public class PowerUpManager : MonoBehaviour {
 	private ScoreManager scoreManager;
 	private GameManager gameManager;
 	private PlatformGenerator platformGenerator;
-	private PlatformDestroyer[] spikeList;
+	private ObjectDestroyer[] spikeList;
 
 	/**************************************************/
 	/**************************************************/
@@ -243,7 +243,7 @@ public class PowerUpManager : MonoBehaviour {
 
 	private void useSafeMode () {
 
-		this.spikeList = FindObjectsOfType<PlatformDestroyer> ();
+		this.spikeList = FindObjectsOfType<ObjectDestroyer> ();
 
 		for (int i = 0; i < this.spikeList.Length; i++) {
 
