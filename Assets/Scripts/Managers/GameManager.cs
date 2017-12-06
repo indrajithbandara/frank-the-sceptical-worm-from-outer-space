@@ -168,6 +168,7 @@ public class GameManager : MonoBehaviour {
 		this.thePlayer.transform.position = this.playerStartPoint;
 		this.platformGenerator.position = this.platformStartPoint;
 
+		this.platformList [0].gameObject.SetActive (true);
 		this.thePlayer.gameObject.SetActive (true);
 
 		this.scoreManager.scoreCount = 0;
