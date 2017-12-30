@@ -2,7 +2,7 @@
 
 A simple Unity endless runner project.
 
-*Status :* In progress!
+**Status :** In progress!
 
 ## :video_game: Description ##
 
