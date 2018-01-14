@@ -1,5 +1,5 @@
 ﻿/**
- * FTSWFOS - Interface - IAction
+ * FTSWFOS - IAction - Interface
  *
  * @since       09.01.2018
  * @version     1.0.0.0

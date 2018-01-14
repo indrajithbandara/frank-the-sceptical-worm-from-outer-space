@@ -1,5 +1,5 @@
 ﻿/**
- * FTSWFOS - IManager - Interface
+ * FTSWFOS - IPool - Interface
  *
  * @since       09.01.2018
  * @version     1.0.0.0
@@ -22,7 +22,7 @@ using UnityEngine;
 /***** INTERFACE *****/
 /*********************/
 
-public interface IManager
+public interface IPool
 {
-    void Init();
+    GameObject GetPooledObject();
 }

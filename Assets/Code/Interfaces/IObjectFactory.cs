@@ -1,5 +1,5 @@
 ﻿/**
- * FTSWFOS - IManager - Interface
+ * FTSWFOS - IObjectFactory - Interface
  *
  * @since       09.01.2018
  * @version     1.0.0.0
@@ -22,7 +22,7 @@ using UnityEngine;
 /***** INTERFACE *****/
 /*********************/
 
-public interface IManager
+public interface IObjectFactory
 {
-    void Init();
+    GameObject Create();
 }
